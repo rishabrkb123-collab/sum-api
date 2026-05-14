@@ -89,5 +89,4 @@ Note: If you used start.bat and the server is running on a different port (e.g. 
 ---
 
 ## Important
-- Never commit your .env file. It is listed in .gitignore.
 - The .env file must contain: API_KEY=your-secret-key
