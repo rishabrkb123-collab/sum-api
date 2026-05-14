@@ -4,7 +4,6 @@ from functools import wraps
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 
-# Load environment variables from .env file
 load_dotenv()
 
 app = Flask(__name__)
@@ -12,7 +11,6 @@ app = Flask(__name__)
 API_KEY = os.getenv("API_KEY")
 
 
-# --- Authentication decorator ---
 def require_api_key(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -23,7 +21,6 @@ def require_api_key(f):
     return decorated
 
 
-# --- Input validation helper ---
 def validate_numbers(body):
     """Returns (numbers, error_message). error_message is None on success."""
     if body is None:
@@ -33,14 +30,12 @@ def validate_numbers(body):
     numbers = body["numbers"]
     if not isinstance(numbers, list):
         return None, "'numbers' must be a list"
-    # Reject booleans — isinstance(True, int) is True in Python
     for item in numbers:
         if isinstance(item, bool) or not isinstance(item, (int, float)):
             return None, "All elements in 'numbers' must be numeric"
     return numbers, None
 
 
-# --- /sum endpoint ---
 @app.route("/sum", methods=["POST"])
 @require_api_key
 def sum_numbers():
